@@ -1,0 +1,43 @@
+GET http://localhost:3000/api/v1/cars
+
+####
+POST http://localhost:3000/api/v1/cars
+Content-Type: application/json
+
+{
+    "make":"Honda",
+    "model":"Civic",
+    "year":2019,
+    "price":10000
+}
+
+####
+POST http://localhost:3000/api/v1/cars
+Content-Type: application/json
+
+{
+    "make":"Honda",
+    "model":"Civic",
+    "year":2019,
+}
+
+####
+
+PUT http://localhost:3000/api/v1/cars/2
+Content-Type: application/json
+
+{
+    "make":"No-Brand"
+}
+
+####
+PUT http://localhost:3000/api/v1/cars/1
+Content-Type: application/json
+
+{
+    "model":"Bugatti",
+    "year":2019
+}
+
+####
+DELETE http://localhost:3000/api/v1/cars/1
