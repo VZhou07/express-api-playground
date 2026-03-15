@@ -6,6 +6,12 @@ const port=3000;
 const router=express.Router();
 
 app.use(express.json());
+//middleware
+app.use((req,res,next)=>{
+    const timestamp= new Date().toISOString();
+    console.log(`[${timestamp}] ${req.method} ${req.url}`);
+    next();
+})
 
 let cars=[
     {id:0, make:"Toyota",model:"Camry", year:2022, price:20000},
@@ -45,7 +51,7 @@ router.post("/",(req,res)=>{
         price:info.price
     }
     cars.push(newCar)
-    return res.json(cars)
+    return res.status(201).json(cars)
 });
 
 router.put("/:id",(req,res)=>{
