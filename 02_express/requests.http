@@ -6,8 +6,8 @@ Content-Type: application/json
 
 {
     "make":"Tesla",
-    "model":"X",
-    "year":2020,
+    "model":"Y",
+    "year":2021,
     "price":40000
 }
 
