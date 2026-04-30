@@ -2,6 +2,7 @@ import React from 'react'
 import Car from './components/Car'
 import { useEffect,useState } from 'react'
 
+
 function MyForm({cars,setCars}){
   const [model,setModel]=useState("");
   const [year,setYear]=useState("");
@@ -78,7 +79,44 @@ function MyForm({cars,setCars}){
 }
 
 const App = () => {
-  const [cars, setCars] = useState([])
+const [cars, setCars] = useState([])
+  const onDelete=async(id)=>{
+  try{
+      const res=await fetch(`/api/v1/cars/${id}`,{
+        method:"DELETE",
+        headers:{"Content-Type":"application/json"}});
+      const data=await res.json();
+      console.log(data)
+      setCars(cars=>cars.filter(car =>car.id!==id));
+  }
+  catch (error){
+    console.log(error)
+  }
+}
+  const onEdit = async(id,updatedInfo)=>{
+    console.log("in")
+    try{
+      const res = await fetch(`/api/v1/cars/${id}`,{
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(updatedInfo)
+      });
+      if (res.ok){
+        const updatedCar=await res.json();
+        setCars((cars)=>cars.map((car)=>{
+          if (car.id===id){
+            return updatedCar
+          }
+          else{
+            return car
+          }
+        }))
+      }
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
 
   useEffect(()=>{
     const fetchMyCars =async ()=>{
@@ -97,11 +135,11 @@ const App = () => {
 
   return (
     <div>
-      <h1>Welcome to the car store</h1>
+      <h1>Car store</h1>
       <MyForm cars={cars} setCars={setCars}/>
       <ul>
         {cars.map(car=>(
-          <Car key={car.id} {...car}/>
+          <Car key={car.id} {...car} onDelete={onDelete} handleEdit={onEdit}/>
         ))}
       </ul>
     </div>
